@@ -1,0 +1,322 @@
+/* =========================================
+   KARTEN-BOXEN
+   (die einzelnen Boxen auf der Startseite: eine pro
+   Wochentag, plus die "Berichtsheft"-Karte am Ende.
+   Weiß, kein 3D-Sockel/Rahmen mehr, nur ein dezenter
+   schwarzer Schlagschatten für die Erhebung)
+========================================= */
+
+.day-card {
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 36px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.16);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.day-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 0 38px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================
+   KOPFZEILE EINER KARTE
+   (oberste Zeile in einer Karten-Box: links Titel +
+   Datum, rechts das Status-Label)
+========================================= */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.day-info {
+    /* Wrapper um Titel + Datum links in der Kopfzeile */
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.day-name {
+    /* Titel einer Karte, z. B. "Montag" */
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.day-date {
+    /* Datum neben dem Titel, z. B. "04.08.2026" */
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* =========================================
+   STATUS-LABEL
+   (das kleine Pill-Badge oben rechts in einer Karte,
+   z. B. "Schreib los", "schreibt...", "Edit", "Bereit")
+========================================= */
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--accent-primary);
+    color: var(--text-primary);
+    display: inline-block;
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.status-badge.complete {
+    background-color: var(--accent-primary);
+    color: #FFFFFF;
+}
+
+.status-badge.open {
+    background-color: transparent;
+}
+
+/* =========================================
+   TAGES-STATUS-BADGE (KREIS -> PILLE)
+   (das Status-Label einer Wochentags-Karte startet als
+   kleiner pastellgrüner Punkt. Sobald eines der drei
+   Textfelder fokussiert wird, morpht es zu einer Pille
+   mit dem Feldnamen und dessen Farbe. Ohne aktives Feld
+   springt es zurück zum Kreis)
+========================================= */
+
+.status-badge.day-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background-color: #A8E6B4;
+    color: #FFFFFF;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 220ms ease, height 220ms ease, padding 220ms ease,
+        border-radius 220ms ease, background-color 200ms ease;
+}
+
+.status-badge.day-status.filled {
+    width: auto;
+    height: 20px;
+    padding: 0 10px;
+    border-radius: 6px;
+}
+
+/* =========================================
+   SPRUNG-ANIMATION FÜR DAS STATUS-LABEL
+   (der kurze Hoch-Runter-Bounce, wenn sich Text/Farbe
+   des Status-Labels ändert, z. B. "Schreib los" -> "schreibt...")
+========================================= */
+
+@keyframes status-badge-bounce {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-2px);
+    }
+    55% {
+        transform: translateY(1px);
+    }
+    80% {
+        transform: translateY(-0.5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.status-badge.bounce {
+    animation: status-badge-bounce 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* =========================================
+   FELD-GRUPPE (ÜBERSCHRIFT + TEXTFELD)
+   (die drei Bereiche pro Tages-Karte: Betrieb,
+   Themen der Woche, Berufsschule)
+========================================= */
+
+.field-group {
+    margin-bottom: 14px;
+}
+
+.field-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+}
+
+.field-label.betrieb {
+    color: var(--type-betrieb);
+}
+
+.field-label.berufsschule {
+    color: var(--type-berufsschule);
+}
+
+.field-label.themen {
+    color: var(--accent-primary);
+}
+
+.day-textarea {
+    width: 100%;
+    min-height: 70px;
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.day-textarea:focus {
+    border-color: var(--accent-primary);
+}
+
+.day-textarea::placeholder {
+    color: rgba(44, 54, 57, 0.35);
+}
+
+/* =========================================
+   FUSSZEILE EINER KARTE
+   (unterste Zeile in einer Karten-Box, in der
+   rechtsbündig ein Button liegt)
+========================================= */
+
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* =========================================
+   GRUND-STYLING FÜR BUTTONS
+   (der "3D-gedrückt"-Effekt, den Buttons wie
+   "Berichtsheft generieren" haben)
+========================================= */
+
+.pushable {
+    background: #6B5040;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.front {
+    display: block;
+    padding: 9px 20px;
+    border-radius: 10px;
+    background: #A27B5C;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    transform: translateY(-4px);
+    transition: transform 80ms ease;
+}
+
+.pushable:hover .front {
+    transform: translateY(-6px);
+    transition: transform 80ms ease;
+}
+
+.pushable:active .front {
+    transform: translateY(-1px);
+}
+
+.pushable:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pushable:disabled .front {
+    transform: translateY(-4px);
+}
+
+/* =========================================
+   NORMALER KARTEN-BUTTON
+   (volle Breite)
+========================================= */
+
+.card-button {
+    width: 100%;
+}
+
+.card-button .front {
+    padding: 14px 20px;
+    width: 100%;
+    text-align: center;
+}
+
+
+/* =========================================
+   HAUPT-BUTTON "BERICHTSHEFT GENERIEREN"
+   (größer/fett hervorgehoben, unten in der
+   "Berichtsheft"-Karte)
+========================================= */
+
+.generate-btn {
+    width: 100%;
+    background: color-mix(in srgb, #66BB6A 55%, black);
+}
+
+.generate-btn .front {
+    background: #66BB6A;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   BEREICH UNTERHALB DER KARTEN
+   (noch nicht in den Templates verbaut: gedacht als
+   abgesetzter Bereich, z. B. für einen zusätzlichen
+   "Generieren"-Abschnitt am Seitenende)
+========================================= */
+
+.generate-section {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+    text-align: center;
+}
+
+/* =========================================
+   KLEINE HILFSKLASSEN
+   (allgemeine Helfer, z. B. Fließtext in einer Karte
+   oder zentrierter Text)
+========================================= */
+
+.card-text {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.text-center {
+    text-align: center;
+}

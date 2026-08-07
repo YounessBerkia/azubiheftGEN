@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+Startseite
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            Willkommen {{ name }}
+        </h1>
+
+        <p class="page-subtitle">
+            Verwalte deine Berichtsheft-Einträge und Berichte.
+        </p>
+    </div>
+</div>
+
+{% for day in week_days %}
+<div class="day-card day-entry-card">
+
+    <div class="card-header">
+
+        <div class="day-info">
+            <span class="day-name">
+                {{ day.name }}
+            </span>
+
+            <span class="day-date">
+                {{ day.date }}
+            </span>
+        </div>
+
+        <span
+            class="status-badge day-status"
+            id="status-{{ day.slug }}"
+        ></span>
+
+    </div>
+
+    <div class="field-group">
+        <label class="field-label betrieb" for="betrieb-{{ day.slug }}">
+            Betrieb
+        </label>
+        <textarea
+            class="day-textarea"
+            id="betrieb-{{ day.slug }}"
+            data-day="{{ day.slug }}"
+            data-field="betrieb"
+            placeholder="Was hast du im Betrieb gemacht?"
+        ></textarea>
+    </div>
+
+    <div class="field-group">
+        <label class="field-label themen" for="themen-{{ day.slug }}">
+            Themen der Woche
+        </label>
+        <textarea
+            class="day-textarea"
+            id="themen-{{ day.slug }}"
+            data-day="{{ day.slug }}"
+            data-field="themen"
+            placeholder="Welche Themen standen diese Woche an?"
+        ></textarea>
+    </div>
+
+    <div class="field-group">
+        <label class="field-label berufsschule" for="berufsschule-{{ day.slug }}">
+            Berufsschule
+        </label>
+        <textarea
+            class="day-textarea"
+            id="berufsschule-{{ day.slug }}"
+            data-day="{{ day.slug }}"
+            data-field="berufsschule"
+            placeholder="Was gab es in der Berufsschule?"
+        ></textarea>
+    </div>
+
+</div>
+{% endfor %}
+
+<!-- Berichtsheft generieren -->
+<div class="day-card">
+
+    <div class="card-header">
+
+        <div class="day-info">
+            <span class="day-name">
+                Berichtsheft
+            </span>
+
+            <span class="day-date">
+                Ollama
+            </span>
+        </div>
+
+        <span class="status-badge">
+            Bereit
+        </span>
+
+    </div>
+
+    <p style="margin-bottom: 20px;">
+        Generiere einen neuen Berichtsheft-Eintrag aus den Wochendaten.
+    </p>
+
+    <div class="card-footer">
+
+        <button class="pushable generate-btn">
+
+            <span class="front">
+                Berichtsheft generieren
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

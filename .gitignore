@@ -1,0 +1,32 @@
+# Virtuelle Umgebung
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# SQLite-Datenbanken (werden beim Start automatisch aus schema.sql erzeugt)
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Umgebungsvariablen / lokale Konfiguration
+.env
+.env.*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
+
+# Claude Code (lokale, maschinenspezifische Preview-Konfiguration)
+.claude/launch.json

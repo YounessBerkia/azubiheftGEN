@@ -1,0 +1,394 @@
+/* ==========================================
+   EINBINDEN VON components.css
+   (enthält die Styles der einzelnen Bausteine wie
+   Karten, Buttons, Status-Label usw.)
+========================================== */
+
+@import url("components.css");
+
+
+/* ==========================================
+   BROWSER-RESET
+   (entfernt Standard-Abstände etc. des Browsers,
+   betrifft die ganze Seite)
+========================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ==========================================
+   GRUNDFARBEN & GRUNDWERTE DER SEITE
+   (zentrale Variablen, die überall auf der Seite
+   verwendet werden: Hintergrund, Akzentfarbe, Textfarbe)
+========================================== */
+
+:root {
+
+    /* Farben */
+
+    --bg-primary: #FFFFFF;   /* Hintergrund der ganzen Seite */
+    --bg-secondary: #FFFFFF; /* Hintergrund der Karten-Boxen (ebenfalls weiß) */
+    --surface: #F5F3F0;      /* leicht abgesetzte Fläche, z. B. für Textfelder */
+    --border-subtle: #E7E2DB; /* dezente Rahmenfarbe auf hellem Grund */
+
+    --accent-primary: #A27B5C; /* Haupt-Akzentfarbe: Buttons, Status-Label "Schreib los" etc. */
+    --accent-dark: #6B5040;    /* dunklere Akzentfarbe: "Schatten"/Unterseite der Buttons */
+
+    --text-primary: #2C3639;   /* Standard-Textfarbe (dunkel, für hellen Hintergrund) */
+    --text-secondary: rgba(44, 54, 57, 0.65);
+
+    /* Bereichs-Farben für Betrieb/Berufsschule (Feld-Überschriften) */
+    --type-betrieb: #C1592C;      /* kräftiges Terrakotta/Rost */
+    --type-berufsschule: #8FB996; /* ruhiges Salbeigrün */
+
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 12px;
+
+    --transition-fast: 150ms ease;
+}
+
+
+/* ==========================================
+   GESAMTE SEITE (HTML / BODY)
+   (Hintergrundfarbe, Textfarbe und Schriftart,
+   die für die komplette Seite gelten)
+========================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    background-color: var(--bg-primary);
+
+    color: var(--text-primary);
+
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+
+    line-height: 1.5;
+
+    min-height: 100vh;
+
+    padding-bottom: 60px;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* ==========================================
+   TEXT-ELEMENTE (Überschriften, Links, Absätze)
+========================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   SCHWEBENDE NAVIGATIONS-PILL
+   (die Leiste oben, mit Abstand zur Decke und den
+   Seiten, weiß, pillenförmig, mit dezentem schwarzem
+   Schlagschatten statt einer Kante/Border)
+========================================== */
+
+.navbar {
+
+    background-color: #FFFFFF;
+
+    border-radius: 999px;
+
+    width: calc(100% - 40px);
+
+    max-width: 900px;
+
+    margin: 20px auto 0;
+
+    padding: 14px 28px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 16px;
+
+    position: sticky;
+
+    top: 20px;
+
+    z-index: 100;
+
+    box-shadow: 0 0 34px rgba(0, 0, 0, 0.18);
+}
+
+.navbar-brand {
+    /* Schriftzug "📋 Berichtsheft-Generator" links in der Kopfleiste */
+    font-size: 16px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    white-space: nowrap;
+}
+
+.navbar-week {
+    /* Kalenderwochen-Anzeige rechts in der Kopfleiste */
+    font-size: 13px;
+
+    font-weight: 500;
+
+    color: var(--text-secondary);
+
+    white-space: nowrap;
+}
+
+.navbar-links {
+    /* Links zwischen Logo und Kalenderwoche */
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 150ms ease;
+}
+
+.navbar-link:hover {
+    color: var(--text-primary);
+}
+
+.navbar-link.active {
+    color: var(--accent-primary);
+}
+
+
+/* ==========================================
+   INHALTSBEREICH DER SEITE
+   (der Container, der den eigentlichen Seiteninhalt
+   unterhalb der Kopfleiste mittig begrenzt)
+========================================== */
+
+.container {
+
+    max-width: 900px;
+
+    margin: 32px auto;
+
+    padding: 0 16px;
+}
+
+
+/* ==========================================
+   SEITEN-TITELBEREICH
+   (z. B. "Willkommen Youness" mit dem Untertext
+   "Verwalte deine Berichtsheft-Einträge..." oben
+   auf der Startseite)
+========================================== */
+
+.page-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 28px;
+}
+
+.page-title {
+    /* große Überschrift, z. B. "Willkommen Youness" */
+    font-size: 32px;
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+}
+
+.page-subtitle {
+    /* kleiner Untertext direkt unter dem Seitentitel */
+    font-size: 14px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   ABSTANDS-BEREICH (allgemeiner Block-Abstand)
+========================================== */
+
+.section {
+
+    margin-bottom: 32px;
+}
+
+
+/* ==========================================
+   TRENNLINIE
+   (dünne horizontale Linie zum optischen Trennen
+   von Inhalten)
+========================================== */
+
+.divider {
+
+    border: none;
+
+    border-top: 1px solid rgba(44, 54, 57, 0.08);
+
+    margin: 32px 0;
+}
+
+
+/* ==========================================
+   HILFSKLASSEN FÜR ABSTÄNDE/AUSRICHTUNG
+   (kleine wiederverwendbare Klassen, z. B. für
+   Textzentrierung oder zusätzliche Abstände)
+========================================== */
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 8px;
+}
+
+.mt-2 {
+    margin-top: 16px;
+}
+
+.mt-3 {
+    margin-top: 24px;
+}
+
+.mb-1 {
+    margin-bottom: 8px;
+}
+
+.mb-2 {
+    margin-bottom: 16px;
+}
+
+.mb-3 {
+    margin-bottom: 24px;
+}
+
+
+/* ==========================================
+   SCROLLLEISTE
+   (Aussehen der Scrollbar am rechten Bildschirmrand,
+   nur in Chrome/Edge/Safari sichtbar)
+========================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+
+/* ==========================================
+   ANPASSUNG FÜR KLEINE BILDSCHIRME (HANDY/TABLET)
+   (ändert Kopfleiste, Titelbereich und Schriftgrößen,
+   wenn das Browserfenster schmal ist)
+========================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+
+        flex-direction: column;
+
+        border-radius: 24px;
+
+        width: calc(100% - 24px);
+
+        top: 12px;
+
+        gap: 10px;
+
+        text-align: center;
+    }
+
+    .page-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .container {
+
+        margin-top: 24px;
+
+        padding: 0 12px;
+    }
+
+    .page-title {
+
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .page-title {
+
+        font-size: 22px;
+    }
+
+    .navbar-brand {
+
+        font-size: 15px;
+    }
+
+    .navbar-week {
+
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            Berichtsheft-Generator
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="navbar-brand">
+            📋 Berichtsheft-Generator
+        </div>
+
+        <nav class="navbar-links">
+            <a
+                href="{{ url_for('index') }}"
+                class="navbar-link{{ ' active' if request.path == url_for('index') else '' }}"
+            >
+                Übersicht
+            </a>
+            <a
+                href="{{ url_for('bericht') }}"
+                class="navbar-link{{ ' active' if request.path == url_for('bericht') else '' }}"
+            >
+                Bericht
+            </a>
+            <a
+                href="{{ url_for('ollama_regelwerk') }}"
+                class="navbar-link{{ ' active' if request.path == url_for('ollama_regelwerk') else '' }}"
+            >
+                Ollama-Regelwerk
+            </a>
+        </nav>
+
+        <div class="navbar-week">
+            KW {{ current_week }} / {{ current_year }}
+        </div>
+
+    </header>
+
+    <!-- Seiteninhalt -->
+    <main class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
