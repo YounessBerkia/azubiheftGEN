@@ -2,8 +2,6 @@
    KARTEN-BOXEN
    (die einzelnen Boxen auf der Startseite: eine pro
    Wochentag, plus die "Berichtsheft"-Karte am Ende.
-   Weiß, kein 3D-Sockel/Rahmen mehr, nur ein dezenter
-   schwarzer Schlagschatten für die Erhebung)
 ========================================= */
 
 .day-card {
@@ -11,13 +9,13 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 36px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.16);
-    transition: transform 220ms ease, box-shadow 220ms ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+    transition: transform 520ms ease, box-shadow 520ms ease;
 }
 
 .day-card:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 0 38px rgba(0, 0, 0, 0.22);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
 
 
@@ -236,12 +234,12 @@
     font-size: 13px;
     font-weight: 500;
     transform: translateY(-4px);
-    transition: transform 80ms ease;
+    transition: transform 200ms ease;
 }
 
 .pushable:hover .front {
     transform: translateY(-6px);
-    transition: transform 80ms ease;
+    transition: transform 200ms ease;
 }
 
 .pushable:active .front {
@@ -255,6 +253,28 @@
 
 .pushable:disabled .front {
     transform: translateY(-4px);
+}
+
+/* =========================================
+   KLICK-ANIMATION (fest, unabhängig von der
+   tatsächlichen Klickdauer, damit auch ein sehr
+   kurzer Klick die volle Press-Bewegung zeigt)
+========================================= */
+
+@keyframes button-press {
+    0% {
+        transform: translateY(-4px);
+    }
+    35% {
+        transform: translateY(-1px);
+    }
+    100% {
+        transform: translateY(-4px);
+    }
+}
+
+.front.pressed {
+    animation: button-press 200ms ease;
 }
 
 /* =========================================
@@ -281,11 +301,11 @@
 
 .generate-btn {
     width: 100%;
-    background: color-mix(in srgb, #66BB6A 55%, black);
+    background: var(--accent-dark);
 }
 
 .generate-btn .front {
-    background: #66BB6A;
+    background: var(--accent-primary);
     padding: 16px 24px;
     font-size: 16px;
     font-weight: 700;

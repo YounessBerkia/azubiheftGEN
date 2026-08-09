@@ -79,3 +79,50 @@ document.querySelectorAll(".day-entry-card").forEach(function (card) {
         });
     });
 });
+
+// ==========================================
+// KLICK-ANIMATION FÜR "PUSHABLE"-BUTTONS
+// (die normale :active-Transition reicht bei einem
+// langen Klick völlig aus. Nur bei einem sehr kurzen
+// Klick - kürzer als PRESS_ANIMATION_THRESHOLD - wird
+// :active nie sichtbar gerendert, deshalb springt dann
+// zusätzlich eine feste Press-Animation ein. So gibt es
+// nie zwei Animationen gleichzeitig, die sich in die
+// Quere kommen)
+// ==========================================
+
+const PRESS_ANIMATION_THRESHOLD = 100;
+
+document.querySelectorAll(".pushable").forEach(function (button) {
+    const front = button.querySelector(".front");
+
+    if (!front) {
+        return;
+    }
+
+    let pressStartedAt = null;
+
+    button.addEventListener("mousedown", function () {
+        pressStartedAt = performance.now();
+    });
+
+    button.addEventListener("click", function () {
+        const pressDuration = pressStartedAt === null
+            ? Infinity
+            : performance.now() - pressStartedAt;
+
+        pressStartedAt = null;
+
+        if (pressDuration >= PRESS_ANIMATION_THRESHOLD) {
+            return;
+        }
+
+        front.classList.remove("pressed");
+        void front.offsetWidth;
+        front.classList.add("pressed");
+    });
+
+    front.addEventListener("animationend", function () {
+        front.classList.remove("pressed");
+    });
+});

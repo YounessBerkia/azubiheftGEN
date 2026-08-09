@@ -32,7 +32,7 @@
 
     /* Farben */
 
-    --bg-primary: #FFFFFF;   /* Hintergrund der ganzen Seite */
+    --bg-primary: #F5F3F0;   /* Hintergrund der ganzen Seite */
     --bg-secondary: #FFFFFF; /* Hintergrund der Karten-Boxen (ebenfalls weiß) */
     --surface: #F5F3F0;      /* leicht abgesetzte Fläche, z. B. für Textfelder */
     --border-subtle: #E7E2DB; /* dezente Rahmenfarbe auf hellem Grund */
@@ -121,7 +121,13 @@ p {
 
 .navbar {
 
-    background-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.3);
+
+    backdrop-filter: blur(13px);
+
+    --webkit-backdrop-filter: blur(13px);
+
+    border: 1px solid rgba(44, 54, 57, 0.08);
 
     border-radius: 999px;
 
@@ -229,19 +235,39 @@ p {
 }
 
 .page-title {
-    /* große Überschrift, z. B. "Willkommen Youness" */
+    /* große Überschrift, z. B. "Deine Woche, Youness" */
     font-size: 32px;
 
     font-weight: 700;
 
-    margin-bottom: 6px;
+    text-align: center;
+
+    letter-spacing: -0.3px;
+
+    margin-bottom: 8px;
+
+    margin-top: 32px;
 }
 
 .page-subtitle {
-    /* kleiner Untertext direkt unter dem Seitentitel */
-    font-size: 14px;
+    /* Untertext direkt unter dem Seitentitel, erklärt kurz den Ablauf */
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    max-width: 1200px;
+
+    text-align: center;
 
     color: var(--text-secondary);
+
+    margin-bottom: 32px;
+}
+
+.page-subtitle .highlight {
+    /* hebt "Ollama" farblich hervor, ohne fett zu wirken */
+    color: var(--accent-primary);
+    font-weight: 600;
 }
 
 
