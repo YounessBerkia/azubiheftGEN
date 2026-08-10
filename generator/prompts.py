@@ -1,6 +1,7 @@
 MARKER_TAETIGKEIT = "###TAETIGKEIT###"
 MARKER_THEMA = "###THEMA###"
 MARKER_BERUFSSCHULE = "###BERUFSSCHULE###"
+MAX_RETRIES = 3
 
 
 class BerichtsheftGenerator:
@@ -42,15 +43,22 @@ class BerichtsheftGenerator:
 
 
         prompt = regelwerk + "\n\n" + daten_teil + "\n\n" + format_anweisung
-        response = self.ollama_client.generate(prompt)
 
+        for versuch in range(MAX_RETRIES):
+            response = self.ollama_client.generate(prompt)
 
-        taetigkeit = response.split(MARKER_TAETIGKEIT)[1].split(MARKER_THEMA)[0].strip()
-        themen = response.split(MARKER_THEMA)[1].split(MARKER_BERUFSSCHULE)[0].strip()
-        berufsschule = response.split(MARKER_BERUFSSCHULE)[1].strip()
+            try:
+                taetigkeit = response.split(MARKER_TAETIGKEIT)[1].split(MARKER_THEMA)[0].strip()
+                themen = response.split(MARKER_THEMA)[1].split(MARKER_BERUFSSCHULE)[0].strip()
+                berufsschule = response.split(MARKER_BERUFSSCHULE)[1].strip()
 
-        return {
-            "taetigkeit": taetigkeit,
-            "themen": themen,
-            "berufsschule": berufsschule
-        }
+                return {
+                    "taetigkeit": taetigkeit,
+                    "themen": themen,
+                    "berufsschule": berufsschule
+                }
+            
+            except IndexError:
+                print(f"Ollama hatte bei Versuch Nr. {versuch + 1} kein gültiges Format geliefert.")
+
+        raise RuntimeError(f"Ollama hat nach {versuch + 1} kein gültiges Format geliefert.")
