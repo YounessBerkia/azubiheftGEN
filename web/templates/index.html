@@ -22,7 +22,8 @@ Startseite
 </div>
 
 {% for day in week_days %}
-<div class="day-card day-entry-card">
+{% set day_entry = entries.get(day.iso_date) %}
+<div class="day-card day-entry-card" data-date="{{ day.iso_date }}">
 
     <div class="card-header">
 
@@ -53,7 +54,7 @@ Startseite
             data-day="{{ day.slug }}"
             data-field="betrieb"
             placeholder="Was hast du im Betrieb gemacht?"
-        ></textarea>
+        >{{ day_entry.betrieb if day_entry else '' }}</textarea>
     </div>
 
     <div class="field-group">
@@ -66,7 +67,7 @@ Startseite
             data-day="{{ day.slug }}"
             data-field="themen"
             placeholder="Welche Themen standen diese Woche an?"
-        ></textarea>
+        >{{ day_entry.themen if day_entry else '' }}</textarea>
     </div>
 
     <div class="field-group">
@@ -79,7 +80,7 @@ Startseite
             data-day="{{ day.slug }}"
             data-field="berufsschule"
             placeholder="Was gab es in der Berufsschule?"
-        ></textarea>
+        >{{ day_entry.berufsschule if day_entry else '' }}</textarea>
     </div>
 
 </div>

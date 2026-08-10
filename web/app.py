@@ -85,10 +85,14 @@ def create_app():
             {
                 "name": tag,
                 "date": (monday + timedelta(days=i)).strftime("%d.%m.%Y"),
+                "iso_date": (monday + timedelta(days=i)).strftime("%Y-%m-%d"),
                 "slug": tag.lower(),
             }
             for i, tag in enumerate(WOCHENTAGE)
         ]
+
+        entries = app.db.get_week_entries(current_week, current_year)
+        entries_by_date = {entry["date"]: entry for entry in entries}
 
         return render_template(
             "index.html",
@@ -96,6 +100,7 @@ def create_app():
             current_year=current_year,
             name=name,
             week_days=week_days,
+            entries=entries_by_date,
         )
 
     @app.route("/entry/save", methods=["POST"])
