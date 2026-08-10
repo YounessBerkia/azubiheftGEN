@@ -179,3 +179,17 @@ function generateReport(button) {
         label.textContent = originalText;
     });
 }
+
+function copyToClipboard(elementId, button) {
+    const textarea = document.getElementById(elementId);
+    const label = button.querySelector(".front");
+    const originalText = label.textContent;
+
+    navigator.clipboard.writeText(textarea.value).then(function () {
+        label.textContent = "✓ Kopiert!";
+
+        window.setTimeout(function () {
+            label.textContent = originalText;
+        }, 1500);
+    });
+}

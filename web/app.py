@@ -143,10 +143,14 @@ def create_app():
                 school_entries.append(f"{tag}: {entry['berufsschule']}")
 
 
+        regelwerk = app.db.get_rules() or DEFAULT_REGELWERK
+
         try:
-            result = app.generator.generate_report(work_entries, school_entries, DEFAULT_REGELWERK)
+            result = app.generator.generate_report(work_entries, school_entries, regelwerk)
         except ConnectionError as e:
             return jsonify({"status": "error", "message": str(e)}), 503
+        except RuntimeError as r:
+            return jsonify({"status": "error", "message": str(r)}), 500
 
         app.db.save_report(
             week,
@@ -171,10 +175,13 @@ def create_app():
         current_week = current_date.isocalendar().week
         current_year = current_date.year
 
+        report = app.db.get_report(current_week, current_year)
+
         return render_template(
             "report.html",
             current_week=current_week,
             current_year=current_year,
+            report=report
         )
 
     @app.route("/ollama-regelwerk")

@@ -18,16 +18,91 @@ Bericht
     </div>
 </div>
 
+{% if report %}
+
 <div class="day-card">
 
     <div class="card-header">
+        <div class="day-info">
+            <span class="day-name">
+                KW {{ report.week_number }} / {{ report.year }}
+            </span>
+        </div>
+    </div>
 
+    <div class="field-group">
+        <label class="field-label betrieb" for="report-taetigkeit">
+            Ausgeführte Tätigkeit
+        </label>
+        <textarea
+            class="day-textarea"
+            id="report-taetigkeit"
+            readonly
+        >{{ report.taetigkeit }}</textarea>
+        <div class="card-footer mt-2">
+            <button
+                class="pushable"
+                onclick="copyToClipboard('report-taetigkeit', this)"
+            >
+                <span class="front">Kopieren</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="field-group">
+        <label class="field-label themen" for="report-themen">
+            Themen der Woche
+        </label>
+        <textarea
+            class="day-textarea"
+            id="report-themen"
+            readonly
+        >{{ report.themen }}</textarea>
+        <div class="card-footer mt-2">
+            <button
+                class="pushable"
+                onclick="copyToClipboard('report-themen', this)"
+            >
+                <span class="front">Kopieren</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="field-group">
+        <label class="field-label berufsschule" for="report-berufsschule">
+            Berufsschule
+        </label>
+        <textarea
+            class="day-textarea"
+            id="report-berufsschule"
+            readonly
+        >{{ report.berufsschule }}</textarea>
+        <div class="card-footer mt-2">
+            <button
+                class="pushable"
+                onclick="copyToClipboard('report-berufsschule', this)"
+            >
+                <span class="front">Kopieren</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="text-center">
+    <a href="{{ url_for('index') }}">Zurück zur Übersicht</a>
+</div>
+
+{% else %}
+
+<div class="day-card">
+
+    <div class="card-header">
         <div class="day-info">
             <span class="day-name">
                 Noch kein Bericht vorhanden
             </span>
         </div>
-
     </div>
 
     <p>
@@ -35,6 +110,14 @@ Bericht
         hier einzusehen.
     </p>
 
+    <div class="card-footer">
+        <a href="{{ url_for('index') }}" class="pushable">
+            <span class="front">Zur Übersicht</span>
+        </a>
+    </div>
+
 </div>
+
+{% endif %}
 
 {% endblock %}
