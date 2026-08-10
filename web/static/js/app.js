@@ -64,6 +64,8 @@ document.querySelectorAll(".day-entry-card").forEach(function (card) {
         });
 
         textarea.addEventListener("blur", function () {
+            saveDayEntry(card);
+
             // Kurz warten, damit bei einem Wechsel zu einem anderen Feld
             // derselben Karte (z. B. per Tab) nicht kurz der Kreis
             // aufblitzt, bevor das neue Feld fokussiert wird.
@@ -126,3 +128,54 @@ document.querySelectorAll(".pushable").forEach(function (button) {
         front.classList.remove("pressed");
     });
 });
+
+
+function saveDayEntry(card) {
+    const date = card.dataset.date;
+    const betrieb = card.querySelector(".day-textarea[data-field='betrieb']").value;
+    const themen = card.querySelector(".day-textarea[data-field='themen']").value;
+    const berufsschule = card.querySelector(".day-textarea[data-field='berufsschule']").value;
+
+    fetch("/entry/save", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ date, betrieb, themen, berufsschule }),
+    })
+}
+
+function generateReport(button) {
+    const year = button.dataset.year;
+    const week = button.dataset.week;
+
+    const label = button.querySelector(".front");
+    const originalText = label.textContent;
+    
+    button.disabled = true;
+    label.textContent = "Ollama denkt nach...";
+
+    fetch(`/report/generate/${year}/${week}`, {
+        method: "POST",
+    })
+
+    
+    .then(function (response) {
+        return response.json();
+    })
+
+
+    .then(function (data) {
+        if (data.status === "ok") {
+            window.location.href = "/bericht";
+        } else {
+            alert(data.message);
+            button.disabled = false;
+            label.textContent = originalText;
+        }
+    })
+
+    .catch(function () {
+        alert("Fehler beim Generieren des Berichts. Bitte versuche es erneut.");
+        button.disabled = false;
+        label.textContent = originalText;
+    });
+}

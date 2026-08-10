@@ -113,7 +113,13 @@ Startseite
 
     <div class="card-footer">
 
-        <button class="pushable generate-btn">
+        <button 
+            class="pushable generate-btn"
+            data-year = "{{ current_year }}"
+            data-week = "{{ current_week }}"
+            onclick = "generateReport(this)"
+            
+        >
 
             <span class="front">
                 Berichtsheft generieren
