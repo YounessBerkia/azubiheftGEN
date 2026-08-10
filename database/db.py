@@ -180,7 +180,7 @@ class DatabaseManager:
             WHERE date = ?
             """,
             (date,)
-    )
+        )
 
         row = cursor.fetchone()
 
@@ -205,5 +205,32 @@ class DatabaseManager:
 
         self.connection.commit()
         return cursor.rowcount > 0
-        
 
+
+    def get_rules(self):
+
+        cursor = self.connection.execute(
+            """
+            SELECT *
+            FROM einstellungen
+            WHERE id = 1
+            """
+        )
+
+        row = cursor.fetchone()
+        if row:
+            return row["regelwerk"]
+
+        return None
+
+    def save_rules(self, text):
+        cursor = self.connection.execute(
+            """
+            UPDATE einstellungen
+            SET regelwerk = ?
+            WHERE id = 1
+            """,
+            (text,)
+        )
+
+        self.connection.commit()
