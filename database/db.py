@@ -39,8 +39,9 @@ class DatabaseManager:
     def save_entry(
         self,
         date,
-        entry_type,
-        content,
+        betrieb,
+        themen,
+        berufsschule,
         week_number,
         year
     ):
@@ -49,24 +50,27 @@ class DatabaseManager:
         """
             INSERT INTO entries (
             date,
-            entry_type,
-            content,
+            betrieb,
+            themen,
+            berufsschule,
             week_number,
             year
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
 
         ON CONFLICT(date)
         DO UPDATE SET
-            entry_type = excluded.entry_type,
-            content = excluded.content,
+            betrieb = excluded.betrieb,
+            themen = excluded.themen,
+            berufsschule = excluded.berufsschule,
             week_number = excluded.week_number,
             year = excluded.year;
         """,
         (
             date,
-            entry_type,
-            content,
+            betrieb,
+            themen,
+            berufsschule,
             week_number,
             year
         )

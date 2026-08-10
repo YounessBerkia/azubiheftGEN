@@ -1,9 +1,10 @@
--- Tageseinträge (Arbeit oder Berufsschule)
+-- Tageseinträge (Betrieb, Themen der Woche, Berufsschule)
 CREATE TABLE IF NOT EXISTS entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date TEXT NOT NULL UNIQUE,
-    entry_type TEXT NOT NULL,
-    content TEXT NOT NULL,
+    betrieb TEXT,
+    themen TEXT,
+    berufsschule TEXT,
     week_number INTEGER NOT NULL,
     year INTEGER NOT NULL
 );
