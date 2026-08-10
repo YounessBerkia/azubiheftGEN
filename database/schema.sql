@@ -21,3 +21,12 @@ CREATE TABLE IF NOT EXISTS reports (
 
     UNIQUE (week_number, year)
 );
+
+-- Gespeichertes Regelwerk
+CREATE TABLE IF NOT EXISTS einstellungen (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    regelwerk TEXT NOT NULL
+);
+
+-- Startzeile anlegen, falls noch keine existiert -> get_rules() findet immer eine Zeile
+INSERT OR IGNORE INTO einstellungen (id, regelwerk) VALUES (1, '');
