@@ -234,3 +234,32 @@ class DatabaseManager:
         )
 
         self.connection.commit()
+
+
+    def get_all_reports(self):
+        cursor = self.connection.execute(
+        """
+        SELECT *
+        FROM reports
+        ORDER BY created_at DESC
+        """
+        )
+
+        rows = cursor.fetchall()
+
+        return [dict(row) for row in rows]
+
+
+    def delete_report(self, week_number, year):
+        cursor = self.connection.execute(
+            """
+            DELETE FROM reports
+            WHERE week_number = ?
+            AND year = ?
+            """,
+            (week_number,
+             year,)
+        )
+
+        self.connection.commit()
+        return cursor.rowcount > 0
