@@ -170,19 +170,33 @@ def create_app():
 
 
     @app.route("/bericht")
-    def bericht():
-        current_date = datetime.now()
-        current_week = current_date.isocalendar().week
-        current_year = current_date.year
+    @app.route("/bericht/<int:year>/<int:week>")
+    def bericht(year=None, week=None):
+        if year is None or week is None:
+            current_date = datetime.now()
+            week = current_date.isocalendar().week
+            year = current_date.year
 
-        report = app.db.get_report(current_week, current_year)
+        report = app.db.get_report(week, year)
+        all_reports = app.db.get_all_reports()
 
         return render_template(
             "report.html",
-            current_week=current_week,
-            current_year=current_year,
-            report=report
+            current_week=week,
+            current_year=year,
+            report=report,
+            all_reports=all_reports
         )
+
+    @app.route("/bericht/delete/<int:year>/<int:week>", methods=["POST"])
+    def report_delete(week, year):
+        deletion = app.db.delete_report(week, year)
+        if deletion:
+            return jsonify({"status": "ok"}), 200
+        else:
+            return jsonify({"status": "not found"}), 404
+         
+
 
     @app.route("/rules")
     def ollama_regelwerk():
