@@ -21,19 +21,31 @@ Ollama-Regelwerk
 <div class="day-card">
 
     <div class="card-header">
-
         <div class="day-info">
             <span class="day-name">
-                Noch kein Regelwerk hinterlegt
+                Regelwerk
             </span>
         </div>
 
+        <span class="status-badge" id="rules-status"></span>
     </div>
 
-    <p>
-        Hier wird später festgelegt, wie Ollama aus deinen Notizen die
-        Berichtsheft-Einträge formuliert.
-    </p>
+    <div class="field-group">
+        <textarea
+            class="day-textarea"
+            id="rules-textarea"
+            style="min-height: 400px; font-family: monospace;"
+        >{{ regelwerk }}</textarea>
+    </div>
+
+    <div class="card-footer">
+        <button
+            class="pushable"
+            onclick="saveRules(this)"
+        >
+            <span class="front">Regelwerk speichern</span>
+        </button>
+    </div>
 
 </div>
 

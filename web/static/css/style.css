@@ -201,6 +201,86 @@ p {
 
 
 /* ==========================================
+   EIGENER MAUSZEIGER (GLAS-KREIS)
+   (ersetzt den Standard-Cursor durch einen kleinen
+   Kreis mit demselben Blur-Glas-Effekt wie die Navbar,
+   nur dunkler eingefärbt, damit er sich vom hellen
+   Hintergrund abhebt. Nur auf Geräten mit echter Maus
+   aktiv, siehe app.js)
+========================================== */
+
+html.custom-cursor-enabled,
+html.custom-cursor-enabled * {
+    /* eigenes Stylesheet gewinnt immer gegen die Browser-eigenen
+       Cursor-Standardwerte von z. B. Textareas/Buttons, unabhängig
+       von Spezifität - deshalb reicht ein einfacher Selektor hier */
+    cursor: none;
+}
+
+.custom-cursor {
+    /* äußere Hülle: nur für die Position zuständig, wird von app.js
+       bei jeder Mausbewegung direkt per transform gesetzt - bewusst
+       KEINE transition hier, sonst hinkt die Bewegung nach */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    will-change: transform;
+}
+
+.custom-cursor-dot {
+    /* innerer Kreis: der eigentliche sichtbare Glas-Effekt.
+       Größe/Press-Animation laufen komplett unabhängig von der
+       Positions-Logik über CSS-Klassen + transition */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
+
+    border-radius: 50%;
+
+    background-color: rgba(44, 54, 57, 0.194);
+
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+
+    border: 0.5px solid rgba(240, 240, 240, 0.763);
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+    opacity: 0;
+
+    transform: scale(1);
+
+    transition: opacity 150ms ease, transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-cursor-dot.visible {
+    opacity: 1;
+}
+
+.custom-cursor-dot.hovering {
+    transform: scale(1.7);
+}
+
+.custom-cursor-dot.pressed {
+    transform: scale(0.6);
+}
+
+.custom-cursor-dot.hovering.pressed {
+    transform: scale(1.2);
+}
+
+
+/* ==========================================
    INHALTSBEREICH DER SEITE
    (der Container, der den eigentlichen Seiteninhalt
    unterhalb der Kopfleiste mittig begrenzt)

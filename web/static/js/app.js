@@ -141,6 +141,14 @@ function saveDayEntry(card) {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ date, betrieb, themen, berufsschule }),
     })
+        .then(function (response) {
+            if (!response.ok) {
+                alert("Speichern fehlgeschlagen - dein Eintrag wurde NICHT gespeichert. Bitte Seite neu laden und nochmal versuchen.");
+            }
+        })
+        .catch(function () {
+            alert("Speichern fehlgeschlagen (keine Verbindung zum Server) - dein Eintrag wurde NICHT gespeichert.");
+        });
 }
 
 function generateReport(button) {
@@ -178,6 +186,115 @@ function generateReport(button) {
         button.disabled = false;
         label.textContent = originalText;
     });
+}
+
+// ==========================================
+// EIGENER MAUSZEIGER (GLAS-KREIS)
+// (bewegt sich rein über CSS "transform", damit der
+// Browser das über die GPU erledigen kann statt bei
+// jeder Mausbewegung ein Layout-Reflow auszulösen.
+// requestAnimationFrame sorgt dafür, dass wir höchstens
+// einmal pro gerendertem Frame aktualisieren, auch wenn
+// "mousemove" öfter feuert. Nur auf Geräten mit echter
+// Maus aktiv - auf Touch-Geräten macht ein Cursor eh
+// keinen Sinn und wir sparen uns die Arbeit komplett)
+// ==========================================
+
+const CURSOR_HOVER_SELECTOR = "textarea, button, a, input, select, .day-card, .pushable";
+
+if (window.matchMedia("(pointer: fine)").matches) {
+    // Hülle: nur Position (per transform, kein transition -> hinkt nicht nach)
+    const cursor = document.createElement("div");
+    cursor.className = "custom-cursor";
+
+    // Punkt: Größe/Press-Animation, komplett unabhängig von der Position
+    const dot = document.createElement("div");
+    dot.className = "custom-cursor-dot";
+    cursor.appendChild(dot);
+
+    document.body.appendChild(cursor);
+    document.documentElement.classList.add("custom-cursor-enabled");
+
+    let targetX = 0;
+    let targetY = 0;
+    let frameQueued = false;
+
+    document.addEventListener("mousemove", function (e) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        dot.classList.add("visible");
+
+        if (!frameQueued) {
+            frameQueued = true;
+            window.requestAnimationFrame(function () {
+                cursor.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+                frameQueued = false;
+            });
+        }
+    });
+
+    document.addEventListener("mouseleave", function () {
+        dot.classList.remove("visible");
+    });
+
+    // Wachsen über Textfeldern/Buttons/Karten
+    document.querySelectorAll(CURSOR_HOVER_SELECTOR).forEach(function (el) {
+        el.addEventListener("mouseenter", function () {
+            dot.classList.add("hovering");
+        });
+
+        el.addEventListener("mouseleave", function () {
+            dot.classList.remove("hovering");
+        });
+    });
+
+    // Press-Effekt bleibt genau so lange aktiv, wie die Maustaste gedrückt ist
+    document.addEventListener("mousedown", function () {
+        dot.classList.add("pressed");
+    });
+
+    document.addEventListener("mouseup", function () {
+        dot.classList.remove("pressed");
+    });
+}
+
+function saveRules(button) {
+    const regelwerk = document.getElementById("rules-textarea").value;
+    const status = document.getElementById("rules-status");
+    const label = button.querySelector(".front");
+    const originalText = label.textContent;
+
+    button.disabled = true;
+    label.textContent = "Speichere...";
+
+    fetch("/ollama-regelwerk/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ regelwerk }),
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.status === "ok") {
+                status.textContent = "Gespeichert";
+                status.classList.add("complete");
+
+                window.setTimeout(function () {
+                    status.textContent = "";
+                    status.classList.remove("complete");
+                }, 2000);
+            } else {
+                alert(data.error || "Fehler beim Speichern.");
+            }
+        })
+        .catch(function () {
+            alert("Fehler beim Speichern des Regelwerks. Bitte versuche es erneut.");
+        })
+        .finally(function () {
+            button.disabled = false;
+            label.textContent = originalText;
+        });
 }
 
 function copyToClipboard(elementId, button) {

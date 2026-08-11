@@ -184,16 +184,30 @@ def create_app():
             report=report
         )
 
-    @app.route("/ollama-regelwerk")
+    @app.route("/rules")
     def ollama_regelwerk():
         current_date = datetime.now()
         current_week = current_date.isocalendar().week
         current_year = current_date.year
 
+        regelwerk = app.db.get_rules() or DEFAULT_REGELWERK
+
         return render_template(
             "rules.html",
             current_week=current_week,
             current_year=current_year,
+            regelwerk=regelwerk
         )
+
+    @app.route("/ollama-regelwerk/save", methods=["POST"])
+    def rules_save():
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        regelwerk = data.get("regelwerk", "")
+
+        app.db.save_rules(regelwerk)
+        return jsonify({"status": "ok"}), 200
 
     return app
