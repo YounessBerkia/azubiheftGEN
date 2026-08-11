@@ -24,4 +24,4 @@ OLLAMA_MODEL = "gemma4:31b-cloud"
 
 # Flask-Konfiguration
 FLASK_PORT = 5001
-FLASK_HOST = "127.0.0.1"
+FLASK_HOST = "0.0.0.0"  # auf allen Netzwerkschnittstellen erreichbar, nicht nur lokal
