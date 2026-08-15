@@ -5,12 +5,14 @@
 ========================================= */
 
 .day-card {
-    background-color: var(--bg-secondary);
+    background-color: rgba(194, 190, 190, 0.29);
     border-radius: 12px;
-    border: 1px solid rgba(198, 192, 192, 0.289);
+    backdrop-filter: blur(13px);
+    --webkit-backdrop-filter: blur(13);
+    border: 2px solid rgba(255, 255, 255, 0.562);
     padding: 20px;
-    margin-bottom: 36px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    margin-bottom: 70px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.163);
     transition: transform 520ms ease, box-shadow 520ms ease;
 }
 
@@ -98,7 +100,7 @@
     padding: 0;
     border: none;
     border-radius: 999px;
-    background-color: #A8E6B4;
+    background-color: #d7b585;
     color: #FFFFFF;
     overflow: hidden;
     white-space: nowrap;
@@ -209,7 +211,7 @@
 
 .card-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 12px;
 }
 

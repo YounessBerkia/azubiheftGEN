@@ -32,7 +32,7 @@
 
     /* Farben */
 
-    --bg-primary: #F5F3F0;   /* Hintergrund der ganzen Seite */
+    --bg-primary: #ede9e4;   /* Hintergrund der ganzen Seite */
     --bg-secondary: #FFFFFF; /* Hintergrund der Karten-Boxen (ebenfalls weiß) */
     --surface: #F5F3F0;      /* leicht abgesetzte Fläche, z. B. für Textfelder */
     --border-subtle: #E7E2DB; /* dezente Rahmenfarbe auf hellem Grund */
@@ -68,9 +68,11 @@ html {
 body {
 
     background-color: var(--bg-primary);
-    background-image: radial-gradient(rgba(44, 54, 57, 0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-repeat: repeat;
+
+    /* Dot-Grid Muster für Notizbucheffekt */
+    background-image:radial-gradient(rgba(44, 54, 57, 0.172) 1px, transparent 1px);
+    background-size: 20px 20px, auto, auto;
+    background-repeat: repeat, no-repeat, no-repeat;
 
     color: var(--text-primary);
 
@@ -89,6 +91,43 @@ body {
     padding-bottom: 60px;
 
     -webkit-font-smoothing: antialiased;
+}
+
+/* Feines Rauschen über der ganzen Seite,
+   damit es unabhängig vom body-Hintergrund (Punktraster/Blobs) bleibt
+   und Klicks/Interaktionen darunter nicht blockiert */
+body::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    opacity: 0.5;
+
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+    background-repeat: repeat;
+
+    animation: grain-flicker 1s steps(10) infinite;
+}
+
+/* Springt das Rauschmuster in zufällig wirkenden Sprüngen umher
+   ("steps" statt weichem Verlau flackert es) */
+@keyframes grain-flicker {
+    0%, 100% { background-position: 0% 0%; }
+    10% { background-position: -10% -10%; }
+    20% { background-position: 5% -20%; }
+    30% { background-position: -15% 5%; }
+    40% { background-position: 10% 15%; }
+    50% { background-position: -5% -15%; }
+    60% { background-position: -20% 5%; }
+    70% { background-position: 15% -5%; }
+    80% { background-position: -10% 20%; }
+    90% { background-position: 5% -10%; }
 }
 
 
