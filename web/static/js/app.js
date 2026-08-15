@@ -1,4 +1,27 @@
 // ==========================================
+// AUTOMATISCHE HÖHE FÜR TEXTFELDER
+// (ein .day-textarea wächst/schrumpft mit seinem Inhalt,
+// statt eine feste Höhe mit Scrollbalken zu haben. Höhe
+// wird kurz auf "auto" zurückgesetzt, damit scrollHeight
+// bei weniger Text auch wieder kleiner werden kann, statt
+// nur zu wachsen)
+// ==========================================
+
+function autoResizeTextarea(textarea) {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+}
+
+document.querySelectorAll(".day-textarea").forEach(function (textarea) {
+    autoResizeTextarea(textarea);
+
+    textarea.addEventListener("input", function () {
+        autoResizeTextarea(textarea);
+    });
+});
+
+
+// ==========================================
 // STATUS-LABEL PRO WOCHENTAGS-KARTE
 // (jede Tages-Karte hat ein eigenes Status-Label, das
 // im Ruhezustand ein kleiner pastellgrüner Kreis ist.
@@ -86,7 +109,7 @@ document.querySelectorAll(".day-entry-card").forEach(function (card) {
 // KLICK-ANIMATION FÜR "PUSHABLE"-BUTTONS
 // (die normale :active-Transition reicht bei einem
 // langen Klick völlig aus. Nur bei einem sehr kurzen
-// Klick - kürzer als PRESS_ANIMATION_THRESHOLD - wird
+// Klick kürzer als PRESS_ANIMATION_THRESHOLD wird
 // :active nie sichtbar gerendert, deshalb springt dann
 // zusätzlich eine feste Press-Animation ein. So gibt es
 // nie zwei Animationen gleichzeitig, die sich in die
@@ -240,3 +263,44 @@ function copyToClipboard(elementId, button) {
         }, 1500);
     });
 }
+
+
+function deleteReport(button) {
+    const year = button.dataset.year;
+    const week = button.dataset.week;
+
+    const label = button.querySelector(".front");
+    const originalButton = label.textContent;
+
+    if (!confirm(`Möchtest du den Eintrag: KW${week} - ${year} wirklich löschen?`)) {
+        return;
+    }
+
+    button.disabled = true;
+    label.textContent = "Bericht wird gelöscht...";
+    
+
+    fetch(`/bericht/delete/${year}/${week}`, {
+        method: "POST",
+    })
+    
+        .then(function (response) {
+            return response.json();
+        })
+
+        .then(function (data) {
+            if (data.status === "ok") {
+                window.location.href = "/bericht";
+            } else {
+                alert("Bericht konnte nicht gelöscht werden");
+                button.disabled = false;
+                label.textContent = originalButton;
+            }
+        })
+        
+        .catch(function () {
+            alert("Fehler beim löschen des Berichts. Bitte versuche es erneut.");
+            button.disabled = false;
+            label.textContent = originalButton;
+        });
+    }

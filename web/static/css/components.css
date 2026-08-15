@@ -7,9 +7,10 @@
 .day-card {
     background-color: var(--bg-secondary);
     border-radius: 12px;
+    border: 1px solid rgba(198, 192, 192, 0.289);
     padding: 20px;
     margin-bottom: 36px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     transition: transform 520ms ease, box-shadow 520ms ease;
 }
 
@@ -186,7 +187,8 @@
     padding: 10px 12px;
     font-family: inherit;
     font-size: 13px;
-    resize: vertical;
+    resize: none;
+    overflow: hidden;
     outline: none;
     transition: border-color 0.15s ease;
 }
@@ -253,6 +255,15 @@
 
 .pushable:disabled .front {
     transform: translateY(-4px);
+}
+
+/* Rote farbe für den Löschen Button */
+.pushable.danger {
+    background: #a2453b;
+}
+
+.pushable.danger .front {
+    background: #B4453A;
 }
 
 /* =========================================

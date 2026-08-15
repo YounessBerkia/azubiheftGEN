@@ -28,6 +28,15 @@ Bericht
                 KW {{ report.week_number }} / {{ report.year }}
             </span>
         </div>
+
+        <button
+            class="pushable danger"
+            data-year="{{ report.year }}"
+            data-week="{{ report.week_number }}"
+            onclick="deleteReport(this)"
+        >
+            <span class="front">Löschen</span>
+        </button>
     </div>
 
     <div class="field-group">
@@ -119,5 +128,30 @@ Bericht
 </div>
 
 {% endif %}
+
+{% for entry in all_reports %}
+{% if not report or entry.week_number != report.week_number or entry.year != report.year %}
+    <div class="day-card">
+        <div class="card-header">
+            <div class="day-info">
+                <a href="{{ url_for('bericht', year=entry.year, week=entry.week_number) }}">
+                    <span class="day-name">
+                        KW {{ entry.week_number }} / {{ entry.year }}
+                    </span>
+                </a>
+            </div>
+
+            <button
+                class="pushable"
+                data-year="{{ entry.year }}"
+                data-week="{{ entry.week_number }}"
+                onclick="deleteReport(this)"
+            >
+                <span class="front">Löschen</span>
+            </button>
+        </div>
+    </div>
+{% endif %}
+{% endfor %}
 
 {% endblock %}
