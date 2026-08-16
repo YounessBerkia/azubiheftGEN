@@ -15,6 +15,20 @@
         {% endblock %}
     </title>
 
+    <!-- Setzt die Dark-Mode-Klasse VOR dem ersten Rendern der Seite,
+         sonst blitzt kurz der helle Modus auf, bevor app.js überhaupt
+         geladen ist (klassisches "Flash of wrong theme"-Problem) -->
+    <script>
+        (function () {
+            var saved = localStorage.getItem("theme");
+            var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (saved === "dark" || (!saved && prefersDark)) {
+                document.documentElement.classList.add("dark-mode");
+            }
+        })();
+    </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -51,6 +65,14 @@
         <div class="navbar-week">
             KW {{ current_week }} / {{ current_year }}
         </div>
+
+        <button
+            class="theme-toggle"
+            onclick="toggleDarkMode()"
+            aria-label="Dark Mode umschalten"
+        >
+            <span class="theme-toggle-icon">🌙</span>
+        </button>
 
     </header>
 

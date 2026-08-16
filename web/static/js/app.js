@@ -1,4 +1,33 @@
 // ==========================================
+// DARK-MODE-TOGGLE
+// (die Klasse "dark-mode" auf <html> wird schon inline im
+// <head> von base.html gesetzt, damit beim Laden kein
+// falscher Modus aufblitzt - hier kümmern wir uns nur noch
+// um den Klick auf den Button selbst: Klasse umschalten,
+// Wahl in localStorage merken, Icon aktualisieren)
+// ==========================================
+
+function updateThemeIcon() {
+    const icon = document.querySelector(".theme-toggle-icon");
+    if (!icon) {
+        return;
+    }
+
+    const isDark = document.documentElement.classList.contains("dark-mode");
+    icon.textContent = isDark ? "L" : "D";
+}
+
+function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    updateThemeIcon();
+}
+
+updateThemeIcon();
+
+
+// ==========================================
 // AUTOMATISCHE HÖHE FÜR TEXTFELDER
 // (ein .day-textarea wächst/schrumpft mit seinem Inhalt,
 // statt eine feste Höhe mit Scrollbalken zu haben. Höhe

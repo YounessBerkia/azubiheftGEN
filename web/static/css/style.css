@@ -70,9 +70,11 @@ body {
     background-color: var(--bg-primary);
 
     /* Dot-Grid Muster für Notizbucheffekt */
-    background-image:radial-gradient(rgba(44, 54, 57, 0.172) 1px, transparent 1px);
-    background-size: 20px 20px, auto, auto;
-    background-repeat: repeat, no-repeat, no-repeat;
+    background-image: radial-gradient(rgba(44, 54, 57, 0.22) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-repeat: repeat;
+
+    transition: background-color 700ms ease, color 700ms ease;
 
     color: var(--text-primary);
 
@@ -106,7 +108,7 @@ body::after {
 
     z-index: 9999;
 
-    opacity: 0.5;
+    opacity: 0.4;
 
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     background-size: 200px 200px;
@@ -196,6 +198,8 @@ p {
     z-index: 100;
 
     box-shadow: 0 0 34px rgba(0, 0, 0, 0.18);
+
+    transition: background-color 400ms ease, border-color 400ms ease;
 }
 
 .navbar-brand {
@@ -239,6 +243,50 @@ p {
 
 .navbar-link.active {
     color: var(--accent-primary);
+}
+
+/* =========================================
+   DARK-MODE-BUTTON
+   (kleiner runder Button ganz rechts in der Navbar,
+   schaltet zwischen hell/dunkel um)
+========================================= */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    background: rgb(198, 200, 201);
+    border: 1px solid rgba(255, 255, 255, 0.717);
+    border-radius: 50%;
+
+    cursor: pointer;
+    flex-shrink: 0;
+
+    transition: background-color 400ms ease, border-color 400ms ease,
+        transform 150ms ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.08);
+}
+
+.theme-toggle:active {
+    transform: scale(0.92);
+}
+
+.theme-toggle-icon {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+html.dark-mode .theme-toggle {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 
@@ -459,4 +507,69 @@ p {
 
         font-size: 12px;
     }
+}
+
+
+/* ==========================================
+   DARKMODE
+   (manuell umschaltbar über den Button in der Navbar,
+   siehe app.js "toggleDarkMode". Klasse "dark-mode" auf
+   <html> statt einer @media-Query, damit der Button die
+   OS-Einstellung übersteuern kann. Bewusst ganz ans
+   Dateiende gesetzt: bei gleicher Spezifität gewinnt in
+   CSS die später stehende Regel, und dieser Block muss
+   die .navbar/.day-card-Grundregeln weiter oben in dieser
+   Datei UND die aus components.css überschreiben können)
+========================================== */
+
+html.dark-mode {
+    --bg-primary: #17140F;
+    --bg-secondary: #211D18;
+    --surface: #2A241D;
+    --border-subtle: #3D362C;
+
+    --accent-primary: #B08561;
+    --accent-dark: #7A5D42;
+
+    --text-primary: #F0EBE3;
+    --text-secondary: rgba(240, 235, 227, 0.65);
+
+    --type-betrieb: #E2794A;
+    --type-berufsschule: #9FCBA6;
+}
+
+/* Schwebende Navbar: helles Glas -> dunkles Glas,
+   backdrop-filter (Blur) bleibt unverändert aus der
+   .navbar-Grundregel bestehen, wir überschreiben hier
+   nur Hintergrundfarbe/Rahmen */
+html.dark-mode .navbar {
+    background-color: rgba(10, 9, 7, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Karten: helles Glas -> dunkles Glas, aber deutlich
+   heller/undurchsichtiger als der Seitenhintergrund,
+   damit sie sich als eigene Fläche abheben statt mit
+   dem Hintergrund zu verschmelzen */
+html.dark-mode .day-card {
+    background-color: rgba(31, 31, 33, 0.539);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Punktraster: dunkle Punkte wären auf dunklem Grund unsichtbar,
+   gleiche Punktgröße wie im hellen Modus (1.5px), nur helle statt
+   dunkler Farbe und etwas kräftigere Deckkraft für Sichtbarkeit */
+html.dark-mode body {
+    background-image: radial-gradient(rgba(240, 235, 227, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Trennlinie: gleiches Problem wie beim Punktraster */
+html.dark-mode .divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Platzhaltertext in Feldern */
+html.dark-mode .day-textarea::placeholder {
+    color: rgba(240, 235, 227, 0.35);
 }
