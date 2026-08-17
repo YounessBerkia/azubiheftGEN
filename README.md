@@ -1,8 +1,13 @@
-![Berichtsheft-Generator](Berichtsheft-Banner.jpg)
+![Kladde](Berichtsheft-Banner.jpg)
 
-# Berichtsheft-Generator
+# Kladde
+### Berichtsheft-Generator für die Ausbildung
 
 Ein persönliches Tool für die Ausbildung (Fachinformatiker Anwendungsentwicklung): Du trägst täglich kurze Stichpunkte zu deiner Arbeit ein, und lässt daraus freitags per Knopfdruck mit einem lokalen KI-Modell ([Ollama](https://ollama.com)) drei fertige Texte für dein Ausbildungsportal generieren – **Ausgeführte Tätigkeit**, **Themen der Woche** und **Berufsschule**. Läuft komplett lokal, keine Cloud-API, keine Kosten pro Anfrage.
+
+## Warum "Kladde"?
+
+Eine Kladde ist ein (leicht altmodisches) deutsches Wort für ein Schmierheft – ein Heft, in das man schnell Stichpunkte hineinkritzelt, bevor man sie später sauber ausformuliert. Genau das macht dieses Tool: du trägst täglich ein paar rohe Stichpunkte ein, und am Ende der Woche macht die KI daraus den fertigen, sauberen Text fürs Berichtsheft.
 
 ## Wie es funktioniert
 
