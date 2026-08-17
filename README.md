@@ -18,7 +18,7 @@ Ein persönliches Tool für die Ausbildung (Fachinformatiker Anwendungsentwicklu
 - **Berichts-Verlauf** – alle generierten Wochenberichte bleiben gespeichert, einzeln abrufbar und löschbar
 - **Kopieren-Buttons** – jeder generierte Abschnitt lässt sich mit einem Klick in die Zwischenablage kopieren
 - **Dark Mode** – inklusive Speicherung der Wahl im Browser
-- **Netzwerkfähig** – standardmäßig im Heimnetz von anderen Geräten erreichbar (z. B. vom Handy aus)
+- **Netzwerkfähig** – standardmäßig im Heimnetz von anderen Geräten erreichbar wenn vom Rpi400 aus gehostet (z. B. vom Handy aus)
 
 ## Tech-Stack
 
@@ -64,8 +64,10 @@ azubiheftGEN/
 ```bash
 # https://ollama.com/download
 
-ollama pull llama3.2        # empfohlen: schnell, gut auf Deutsch, ~2 GB
-# oder z. B. ollama pull mistral für bessere, aber langsamere Ergebnisse
+ollama pull gemma4:e4b        # empfohlen: schnell, gut auf Deutsch, ~2 GB
+# oder z. B. ollama pull gemma4:12b für bessere, aber langsamere Ergebnisse
+
+ollama pull gemma4:31b-cloud       # schneller aber nicht lokal, login  nötig
 
 # Prüfen ob Ollama läuft:
 ollama serve
@@ -76,7 +78,7 @@ ollama serve
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
-# source .venv/bin/activate   # Mac/Linux
+source .venv/bin/activate   # Mac/Linux
 
 pip install -r requirements.txt
 ```
@@ -86,7 +88,7 @@ pip install -r requirements.txt
 In [`config.py`](config.py) ggf. anpassen:
 
 ```python
-OLLAMA_MODEL = "llama3.2"     # welches Ollama-Modell verwendet wird
+OLLAMA_MODEL = "gemma4:31b-cloud"     # welches Ollama-Modell verwendet wird
 FLASK_PORT = 5001
 FLASK_HOST = "0.0.0.0"        # im Heimnetz erreichbar – für rein lokale Nutzung auf "127.0.0.1" ändern
 ```
